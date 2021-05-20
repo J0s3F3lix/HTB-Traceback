@@ -45,7 +45,7 @@ Desde aqui ejecutaremos:
 ```
 ssh-keygen <enter>
 ```
->[+] Enter file in which to save the key `(/home/ylo/.ssh/id_rsa):` *presionadmos enter*
+[+] Enter file in which to save the key `(/home/ylo/.ssh/id_rsa):` *presionadmos enter*
 Enter passphrase `(empty for no passphrase):` *Digitamos nuestra clave*
 Enter same passphrase again: *Confirmamos la clave digitada*
 
@@ -93,9 +93,7 @@ Continuando la enumeracion si ejecutamos
 ```
 ps aux
 ````
->Notaremos que un proceso que esta ejecutando lo siguiente:
-`sudo -u sysadmin /home/sysadmin/luvit` 
-Entre otra cosas, pero solo tomaremos esta parte.
+Notaremos que un proceso que esta ejecutando lo siguiente: `sudo -u sysadmin /home/sysadmin/luvit` entre otra cosas, pero solo tomaremos esta parte.
 
 Ahora tenemos lo siguiente:
 `sudo -u sysadmin /home/sysadmin/luvit`
@@ -108,7 +106,7 @@ sudo -u sysadmin /home/sysadmin/luvit trace.lua
 whoami
 sysadmin 
 ```
-Y con esto tenemos permiso de `sysadmin`
+Y con esto tenemos ahora tenemos permiso de `sysadmin`
 
 ```
 cd /home/sysadmin
