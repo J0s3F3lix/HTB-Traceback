@@ -70,7 +70,7 @@ Nos movemos al diretorio
 Eliminaremos el archivo `authorized_key` 
 Luego subimos nuestro archivo `authorized_key`
 
->Volvemos a nuestra maquina desde donde creamos nuestra llaves publica y privada
+Volvemos a nuestra maquina desde donde creamos nuestra llaves publica y privada
 y al archivo `id_rsa` le cambiar el permiso para poder utilizarlo.
 
 ```
